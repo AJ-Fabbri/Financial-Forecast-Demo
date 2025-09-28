@@ -25,7 +25,7 @@ setup(
         "streamlit>=1.0.0",
         "plotly>=5.0.0"
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     entry_points={
         'console_scripts': [
             'financial-forecast-demo=delphi.scripts.run:main',
@@ -35,8 +35,6 @@ setup(
         "Development Status :: 4 - Beta",
         "Intended Audience :: Financial and Insurance Industry",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
