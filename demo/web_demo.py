@@ -17,7 +17,7 @@ st.title("Financial Forecast: Stock Price Forecasting Demo")
 st.markdown("""
 This is a demonstration of the financial forecast framework, showcasing its capabilities in stock price forecasting using a simple ARIMA model.
 
-**Disclaimer:** This demo uses mock data or limited real-time data for illustrative purposes only and should not be used for actual trading decisions.
+**Disclaimer:** NOT FINANCIAL ADVICE.This demo uses mock data or limited real-time data for illustrative purposes only and should not be used for actual trading decisions.
 """)
 
 # Sidebar for controls
