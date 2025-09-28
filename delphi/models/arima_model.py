@@ -474,7 +474,7 @@ def evaluate_arima_5day_ahead(model, full_data, test_size=0.2, forecast_horizon=
     return metrics_5day, results_df
 
 
-def forecast_future(model, steps=None, plot_results=True, ticker=None):
+def forecast_future(model, steps=None, plot_results=True, ticker=None, historical_data=None):
     """
     Generate future forecasts using trained ARIMA model
     
@@ -483,6 +483,7 @@ def forecast_future(model, steps=None, plot_results=True, ticker=None):
         steps: Number of steps to forecast
         plot_results: Whether to create forecast plot
         ticker: Stock ticker for plot titles
+        historical_data: Historical data with proper date index for alignment
         
     Returns:
         Tuple of (forecast_values, confidence_intervals, forecast_dates)
@@ -497,41 +498,51 @@ def forecast_future(model, steps=None, plot_results=True, ticker=None):
     forecast, conf_int = model.predict(steps=steps, return_conf_int=True)
     
     # Generate future dates (assuming daily frequency)
-    # Try to get the last date from model data, fallback to using the original data index
-    try:
-        if model.fitted_model.model.data.dates is not None:
-            last_date = model.fitted_model.model.data.dates[-1]
-        else:
-            # Fallback: get from original endog data index if it's a pandas Series/DataFrame
-            orig_data = model.fitted_model.model.data.orig_endog
-            if hasattr(orig_data, 'index'):
-                last_date = orig_data.index[-1]
+    # Use historical data if provided, otherwise try to get from model
+    if historical_data is not None and hasattr(historical_data, 'index') and len(historical_data.index) > 0:
+        # Use the last date from the provided historical data
+        last_date = historical_data.index[-1]
+    else:
+        # Try to get the last date from model data, fallback to using the original data index
+        try:
+            if model.fitted_model.model.data.dates is not None:
+                last_date = model.fitted_model.model.data.dates[-1]
             else:
-                # Final fallback: use today's date
-                last_date = pd.Timestamp.now().normalize()
-    except (AttributeError, IndexError, TypeError):
-        # Fallback: use today's date
-        last_date = pd.Timestamp.now().normalize()
+                # Fallback: get from original endog data index if it's a pandas Series/DataFrame
+                orig_data = model.fitted_model.model.data.orig_endog
+                if hasattr(orig_data, 'index') and len(orig_data.index) > 0:
+                    last_date = orig_data.index[-1]
+                else:
+                    # Final fallback: use today's date
+                    last_date = pd.Timestamp.now().normalize()
+        except (AttributeError, IndexError, TypeError):
+            # Fallback: use today's date
+            last_date = pd.Timestamp.now().normalize()
     
     forecast_dates = pd.date_range(start=last_date + pd.Timedelta(days=1), 
                                   periods=steps, freq='D')
     
     if plot_results:
-        # Get historical data for context
-        orig_data = model.fitted_model.model.data.orig_endog
-        try:
-            if model.fitted_model.model.data.dates is not None:
-                historical_data = pd.Series(orig_data, index=model.fitted_model.model.data.dates)
-            else:
-                # If dates are None, use the original data as-is if it already has an index
-                if hasattr(orig_data, 'index'):
-                    historical_data = orig_data
+        # Use provided historical data if available, otherwise get from model
+        if historical_data is not None:
+            # Use the provided historical data with proper dates
+            pass  # historical_data is already set
+        else:
+            # Get historical data for context from model
+            orig_data = model.fitted_model.model.data.orig_endog
+            try:
+                if model.fitted_model.model.data.dates is not None:
+                    historical_data = pd.Series(orig_data, index=model.fitted_model.model.data.dates)
                 else:
-                    # Create a simple integer index
-                    historical_data = pd.Series(orig_data)
-        except (AttributeError, TypeError):
-            # Fallback: create series with integer index
-            historical_data = pd.Series(orig_data)
+                    # If dates are None, use the original data as-is if it already has an index
+                    if hasattr(orig_data, 'index'):
+                        historical_data = orig_data
+                    else:
+                        # Create a simple integer index
+                        historical_data = pd.Series(orig_data)
+            except (AttributeError, TypeError):
+                # Fallback: create series with integer index
+                historical_data = pd.Series(orig_data)
         
         title = f"ARIMA Forecast - {ticker}" if ticker else "ARIMA Forecast"
         confidence_intervals = (conf_int.iloc[:, 0].values, conf_int.iloc[:, 1].values)

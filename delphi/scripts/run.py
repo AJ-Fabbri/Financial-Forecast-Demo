@@ -19,9 +19,12 @@ def main():
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s train SPY --years 5
-  %(prog)s evaluate SPY
-  %(prog)s predict SPY --days 10
+  python3 -m delphi.scripts.run train SPY --years 5
+  python3 -m delphi.scripts.run evaluate SPY
+  python3 -m delphi.scripts.run predict SPY --days 10
+  python3 run_demo.py train SPY --years 5
+  python3 run_demo.py evaluate SPY
+  python3 run_demo.py predict SPY --days 10
         """
     )
     

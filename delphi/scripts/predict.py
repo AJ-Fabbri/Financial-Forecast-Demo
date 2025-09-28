@@ -61,6 +61,12 @@ def predict_future(ticker=None, days_ahead=None, plot_results=True,
                 print(f"Warning: Could not get current price: {e}")
             current_price = None
         
+        # Load the actual data to get proper date information
+        if verbose:
+            print("Loading historical data for proper date alignment...")
+        df = load_ticker_data(ticker, years=5)  # Load recent data
+        target_series = df['Close'] if 'Close' in df.columns else df.iloc[:, 0]
+        
         # Generate forecast
         if verbose:
             print(f"\nGenerating {days_ahead} day forecast...")
@@ -69,7 +75,8 @@ def predict_future(ticker=None, days_ahead=None, plot_results=True,
             model_obj,
             steps=days_ahead,
             plot_results=plot_results,
-            ticker=ticker
+            ticker=ticker,
+            historical_data=target_series  # Pass the actual data with dates
         )
         
         # Display forecast results

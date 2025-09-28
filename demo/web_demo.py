@@ -1,3 +1,5 @@
+# RUN WITH: streamlit run demo/web_demo.py
+
 #!/usr/bin/env python3
 import streamlit as st
 import pandas as pd
