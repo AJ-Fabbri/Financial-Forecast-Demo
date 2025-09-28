@@ -94,21 +94,21 @@ def run_complete_demo(ticker, years=3):
         # Summary
         print("DEMO SUMMARY")
         print("=" * 40)
-        print(f"✓ Trained ARIMA model for {ticker}")
-        print(f"✓ Model order: {model.order}")
-        print(f"✓ Training AIC: {model.fitted_model.aic:.2f}")
-        print(f"✓ Evaluation RMSE: {metrics['RMSE']:.4f}")
-        print(f"✓ Direction Accuracy: {metrics['Direction Accuracy (%)']:.2f}%")
+        print(f"[OK] Trained ARIMA model for {ticker}")
+        print(f"[OK] Model order: {model.order}")
+        print(f"[OK] Training AIC: {model.fitted_model.aic:.2f}")
+        print(f"[OK] Evaluation RMSE: {metrics['RMSE']:.4f}")
+        print(f"[OK] Direction Accuracy: {metrics['Direction Accuracy (%)']:.2f}%")
         
         # Add simulation summary
         if 'Total_Return' in metrics:
-            print(f"✓ Trading Strategy Return: {metrics['Total_Return']:.2f}%")
-            print(f"✓ Buy-and-Hold Return: {metrics['Total_Return_BH']:.2f}%")
-            print(f"✓ Alpha (Strategy - B&H): {metrics['Alpha']:.2f}%")
-            print(f"✓ Trading Signals Generated: {metrics['Trading_Signals']}")
+            print(f"[OK] Trading Strategy Return: {metrics['Total_Return']:.2f}%")
+            print(f"[OK] Buy-and-Hold Return: {metrics['Total_Return_BH']:.2f}%")
+            print(f"[OK] Alpha (Strategy - B&H): {metrics['Alpha']:.2f}%")
+            print(f"[OK] Trading Signals Generated: {metrics['Trading_Signals']}")
         
-        print(f"✓ Generated 7-day forecast")
-        print(f"✓ Results saved to delphi/results/")
+        print(f"[OK] Generated 7-day forecast")
+        print(f"[OK] Results saved to delphi/results/")
         print()
         print("Demo completed successfully!")
         print("Now includes full trading simulation analysis")

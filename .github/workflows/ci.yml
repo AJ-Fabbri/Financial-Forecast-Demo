@@ -63,9 +63,9 @@ jobs:
         for file in demo_files:
             if os.path.exists(file):
                 df = pd.read_csv(file, skiprows=3)
-                print(f'✓ {file} loaded successfully with {len(df)} rows')
+                print(f'[OK] {file} loaded successfully with {len(df)} rows')
             else:
-                print(f'⚠️  {file} not found')
+                print(f'[WARNING] {file} not found')
         "
     
     - name: Test Streamlit app (dry run)
@@ -77,9 +77,9 @@ jobs:
         # Test that the web demo can be imported without errors
         try:
             import demo.web_demo
-            print('✓ Streamlit web demo imports successfully')
+            print('[OK] Streamlit web demo imports successfully')
         except Exception as e:
-            print(f'⚠️  Streamlit demo import issue: {e}')
+            print(f'[WARNING] Streamlit demo import issue: {e}')
         "
 
   deploy:
