@@ -64,14 +64,15 @@ cd financial-demo
 pip install -r requirements.txt
 ```
 
-3. **Generate Demo Data** (Optional):
+3. **Download Demo Data** (Optional):
    The Streamlit app uses pre-generated CSVs for demonstration. To update the sample data:
 ```bash
 python3 demo/data_download.py
 ```
 
-### Running the Web Demo (Recommended for showcasing)
+### Running the Web Demo (RECOMMENDED APPROACH)
 
+Run the run_web_demo.py script, OR:
 Navigate to the project root and run the Streamlit application:
 ```bash
 streamlit run demo/web_demo.py
@@ -228,7 +229,7 @@ forecast, conf_int, dates = forecast_future(model, steps=10)
 - **Memory**: ~500MB for typical usage
 - **Storage**: ~100MB for models and results
 
-## 🧪 Testing & Validation
+## Testing & Validation
 
 The framework includes comprehensive validation:
 - **Stationarity testing** for time series appropriateness
