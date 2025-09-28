@@ -116,7 +116,7 @@ jobs:
           .
     
     - name: Upload deployment artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: financial-demo-${{ github.sha }}
         path: financial-demo-${{ github.sha }}.tar.gz
